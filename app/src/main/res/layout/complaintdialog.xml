@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:orientation="vertical">
+    <TextView
+            android:text="몇호의 소음이 시끄럽나요?"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textView" android:layout_weight="1"
+            android:textSize="20sp"/>
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:layout_weight="1" tools:ignore="SpeakableTextPresentCheck" android:id="@+id/complainthouse"/>
+    <com.google.android.material.chip.ChipGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_weight="1">
+
+        <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/chip" android:text="발소리"
+                android:checkable="true"/>
+        <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/chip2" android:text="말소리"
+                android:checkable="true"/>
+        <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/chip3" android:text="사물소리"
+                android:checkable="true"/>
+        <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/chip4" android:text="기타"
+                android:checkable="true"/>
+    </com.google.android.material.chip.ChipGroup>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_weight="1" android:layout_gravity="right"
+            android:gravity="right">
+        <Button
+                android:text="신고하기"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/complaintButtonInDialog" android:layout_weight="1"
+        />
+    </LinearLayout>
+</LinearLayout>
