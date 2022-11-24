@@ -6,11 +6,15 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -18,8 +22,11 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class
 
@@ -30,6 +37,7 @@ MainPageActivity extends AppCompatActivity {
     private Dialog dialog;
     private TextView welcome;
     private int[] dbArr;
+    EditText editText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         dbArr = getDB();
@@ -91,15 +99,28 @@ MainPageActivity extends AppCompatActivity {
         TextView scoreText = (TextView) findViewById(R.id.score);
         TextView complText = (TextView) findViewById(R.id.complain);
 
-        Log.d("aaa",""+Firebase.score+":"+Firebase.getList.size());
-        scoreText.setText(Firebase.score +"\n/100");
-        complText.setText(Firebase.getList.size()+"\n/월");
+        scoreText.setText(Firebase.score +"점");
+        complText.setText(Firebase.getList.size()+"회/월");
     }
 
     public void showDialog(){
         dialog.show();
-
         Button btnComplaint = dialog.findViewById(R.id.complaintButtonInDialog);
+//        ChipGroup chipGroup = (ChipGroup) findViewById(R.id.chipgroup);
+//        for(int i = 0; i<5; i++){
+//            Chip chip = new Chip(MainPageActivity.this);
+//            chip.setText("chip"+i);
+//            chip.setCheckable(true);             // 체크 표시 사용 여부
+//            chip.setCloseIconVisible(false);             // close icon 표시 여부
+//            chipGroup.addView(chip);             // chip group 에 해당 chip 추가
+//
+//            chip.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Toast.makeText(MainPageActivity.this, "Check", Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//        }
         btnComplaint.setOnClickListener(v->{
             //통신 부분 미구현
             if(sendComplaint()) {
@@ -111,6 +132,8 @@ MainPageActivity extends AppCompatActivity {
         });
     }
     public boolean sendComplaint(){
+        //editText = (EditText) findViewById(R.id.complainthouse);
+        //firebase.Complaint(Integer.parseInt(editText.getText().toString()),"말소리");
         return true;
     }
     public int[] getDB(){
@@ -119,7 +142,6 @@ MainPageActivity extends AppCompatActivity {
         for(int i=0;i<12;i++) {
             list[i] = Integer.parseInt(Firebase.noise.get(Integer.toString(i+1)).toString());
         }
-        Log.d("aaa",""+list);
         return list;
     }
 }

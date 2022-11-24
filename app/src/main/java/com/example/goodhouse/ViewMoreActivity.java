@@ -2,6 +2,7 @@ package com.example.goodhouse;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +16,9 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class ViewMoreActivity extends AppCompatActivity {
@@ -28,15 +32,13 @@ public class ViewMoreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_more);
         chart = findViewById(R.id.linechart);
-        dbArr = new int[]{30, 49, 20, 10, 5, 0, 0, 10, 49, 58, 11, 40, 30, 58, 20, 49, 30, 49, 20, 10, 5, 0, 0, 10, 49, 58, 11, 40, 30, 58, 20, 49, 30, 49, 20, 10, 5, 0, 0, 10, 49, 58, 11, 40, 30, 58, 20, 49};
+        dbArr = new int[30];
         aDayBtn = findViewById(R.id.oneDayBtn);
         aWeekBtn = findViewById(R.id.weekBtn);
         aMonthBtn = findViewById(R.id.amonthBtn);
         makeChart(12);
 
-        aDayBtn.setOnClickListener(v -> {
-            makeChart(12);
-        });
+        aDayBtn.setOnClickListener(v -> makeChart(12));
         aWeekBtn.setOnClickListener(v -> makeChart(7));
         aMonthBtn.setOnClickListener(v -> makeChart(30));
 
@@ -45,16 +47,17 @@ public class ViewMoreActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         ComplaintAdapter adapter = new ComplaintAdapter();
         //여기 코딩 필요
+
         adapter.setList(getList());
         recyclerView.setAdapter(adapter);
-
-
-
-
     }
     //여기 제작해야함
     static ArrayList<Complaint> getList(){
-        return new ArrayList<Complaint>();
+//        ArrayList<Complaint> list = new ArrayList<>();
+//        for(int i=0;i<Firebase.getList.size();i++) {
+//            list.add((Complaint)(Firebase.getList.get(i)));
+//        }
+        return new ArrayList<>();
     }
 
     void makeChart(int n) {
@@ -79,19 +82,34 @@ public class ViewMoreActivity extends AppCompatActivity {
 
         // set data
         chart.setData(data);
+        chart.invalidate();
     }
-
 
     ArrayList<Entry> getVal(int n) { //통신 미구현으로 인한 미구현
         ArrayList<Entry> values = new ArrayList<>();
-
+        getDB(n);
         for (int i = 0; i <n; i++) {
-
             float val = (float) dbArr[i];
             values.add(new Entry(i, val));
         }
         return values;
+    }
 
-
+    void getDB(int n) {
+        if(n == 12) {
+            for(int i=0;i<12;i++) {
+                dbArr[i] = Integer.parseInt(Firebase.noise.get(Integer.toString(i+1)).toString());
+            }
+        }
+        else if(n == 7) {
+            for(int i=0;i<7;i++) {
+                dbArr[i] = Integer.parseInt(Firebase.week_noise.get(Integer.toString(i+1)).toString());
+            }
+        }
+        else {
+            for(int i=0;i<30;i++) {
+                dbArr[i] = Integer.parseInt(Firebase.month_noise.get(Integer.toString(i+1)).toString());
+            }
+        }
     }
 }

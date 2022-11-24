@@ -37,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
                     try
                     {
                         firebase.getInfo();
+                        firebase.putNoise();
                         sleep(300);
                     } catch (InterruptedException e)
                     {

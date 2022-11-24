@@ -40,17 +40,17 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView timeText;//시간을 받음
-        TextView kind;//민원 내용을 받음
+        TextView content;//민원 내용을 받음
 
         public ViewHolder(View itemView) {
             super(itemView);
-            kind = itemView.findViewById(R.id.messageText);
+            content = itemView.findViewById(R.id.messageText);
             timeText = itemView.findViewById(R.id.datetimeText);
         }
 
         public void setItem(Complaint complaint){
             timeText.setText(Long.toString(complaint.time));
-            kind.setText(complaint.complaintKind);
+            content.setText(complaint.complaintKind);
         }
     }
 }

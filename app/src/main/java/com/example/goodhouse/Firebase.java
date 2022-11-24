@@ -18,8 +18,10 @@ import java.util.List;
 
 public class Firebase {
     static HashMap<String, Object> noise = new HashMap<>();
+    static HashMap<String, Object> week_noise = new HashMap<>();
+    static HashMap<String, Object> month_noise = new HashMap<>();
     static List<Object> fileList = new ArrayList<>();
-    static List<Object> getList = new ArrayList<>();
+    static List<String> getList = new ArrayList<>();
     static int score, address, room;
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference databaseReference = database.getReference();
@@ -28,7 +30,6 @@ public class Firebase {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Information information = snapshot.getValue(Information.class);
-
                 score = information.getScore();
             }
             @Override
@@ -49,8 +50,10 @@ public class Firebase {
         databaseReference.child(Integer.toString(address)).child(Integer.toString(room)).child("getComplaint").addValueEventListener(new ValueEventListener() { //get getComplaint from firebase
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d("aaa","1");
                 for (DataSnapshot ds : snapshot.getChildren()) {
-                    getList.add(ds.getValue());
+                    getList.add((String)ds.getValue());
+                    Log.d("aaa","1");
                 }
             }
             @Override
@@ -81,11 +84,17 @@ public class Firebase {
         String time = formatter.format(date);
         dataComplaint fcomplaint = new dataComplaint(other_room, time, content, result);
 
-        databaseReference.child(Integer.toString(address)).child(Integer.toString(other_room)).child("fileComplaint").push().setValue(fcomplaint); //db에 민원 접수내역 저장
+        databaseReference.child(Integer.toString(address)).child(Integer.toString(room)).child("fileComplaint").push().setValue(other_room);
+        databaseReference.child(Integer.toString(address)).child(Integer.toString(room)).child("fileComplaint").push().setValue(time);
+        databaseReference.child(Integer.toString(address)).child(Integer.toString(room)).child("fileComplaint").push().setValue(content);
+        databaseReference.child(Integer.toString(address)).child(Integer.toString(room)).child("fileComplaint").push().setValue(result);
         if(result == 1) {
             result = 2;
             dataComplaint rcomplaint = new dataComplaint(room, time,content,result);
-            databaseReference.child(Integer.toString(address)).child(Integer.toString(room)).child("getComplaint").push().setValue(rcomplaint); //db에 상대방 집에 민원 저장
+            databaseReference.child(Integer.toString(address)).child(Integer.toString(other_room)).child("getComlaint").push().setValue(room);
+            databaseReference.child(Integer.toString(address)).child(Integer.toString(other_room)).child("getComlaint").push().setValue(time);
+            databaseReference.child(Integer.toString(address)).child(Integer.toString(other_room)).child("getComlaint").push().setValue(content);
+            databaseReference.child(Integer.toString(address)).child(Integer.toString(other_room)).child("getComlaint").push().setValue(result);
         }
     }
 
@@ -93,17 +102,37 @@ public class Firebase {
         return 1;
     }
 
-    public void putNoise(int address, int room) { //list 가져온 후 값 추가하기
-        HashMap noise = new HashMap<>();
-        noise = NoiseSet(noise);
+    public void putNoise() { //list 가져온 후 값 추가하기
+        noise = NoiseSet();
+        week_noise = weekNoise();
+        month_noise = monthNoise();
         databaseReference.child(Integer.toString(address)).child(Integer.toString(room)).child("noise").setValue(noise);
+        databaseReference.child(Integer.toString(address)).child(Integer.toString(room)).child("week_noise").setValue(week_noise);
+        databaseReference.child(Integer.toString(address)).child(Integer.toString(room)).child("month_noise").setValue(month_noise);
     }
 
-    public HashMap NoiseSet(HashMap noise) { //db로부터 값 가져오기 (현재는 랜덤으로 입력)
+    public HashMap NoiseSet() { //db로부터 값 가져오기 (현재는 랜덤으로 입력)
+        noise.clear();
         for(int i=1;i<13;i++) {
             noise.put(Integer.toString(i),Integer.toString((int)((Math.random()*10000)%100)));
         }
         return noise;
+    }
+
+    public HashMap weekNoise() { //db로부터 값 가져오기 (현재는 랜덤으로 입력)
+        week_noise.clear();
+        for(int i=1;i<8;i++) {
+            week_noise.put(Integer.toString(i),Integer.toString((int)((Math.random()*10000)%100)));
+        }
+        return week_noise;
+    }
+
+    public HashMap monthNoise() { //db로부터 값 가져오기 (현재는 랜덤으로 입력)
+        month_noise.clear();
+        for(int i=1;i<31;i++) {
+            month_noise.put(Integer.toString(i),Integer.toString((int)((Math.random()*10000)%100)));
+        }
+        return month_noise;
     }
 
     public void CalculateScore(int addresss, int room) { //매너지수 계산
