@@ -53,11 +53,12 @@ public class ViewMoreActivity extends AppCompatActivity {
     }
     //여기 제작해야함
     static ArrayList<Complaint> getList(){
-//        ArrayList<Complaint> list = new ArrayList<>();
-//        for(int i=0;i<Firebase.getList.size();i++) {
-//            list.add((Complaint)(Firebase.getList.get(i)));
-//        }
-        return new ArrayList<>();
+        ArrayList<Complaint> list = new ArrayList<>();
+        Log.d("abc",""+MainPageActivity.list.length);
+        for(int i=0;i<MainPageActivity.list.length;i++) {
+            list.add(new Complaint(MainPageActivity.list[i][2],MainPageActivity.list[i][3]));
+        }
+        return list;
     }
 
     void makeChart(int n) {

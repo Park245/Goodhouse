@@ -40,7 +40,8 @@ MainPageActivity extends AppCompatActivity {
     private TextView welcome;
     private int[] dbArr;
     EditText editText;
-    static String[] time;
+    static String[] get;
+    static String[][] list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         dbArr = getDB();
@@ -101,17 +102,17 @@ MainPageActivity extends AppCompatActivity {
     public void getInforms() {
         TextView scoreText = (TextView) findViewById(R.id.score);
         TextView complText = (TextView) findViewById(R.id.complain);
-
+        list = new String[Firebase.getList.size()][4];
         scoreText.setText(Firebase.score +"점");
         complText.setText(Firebase.getList.size()+"회/월");
 
         for(int i=0;i<Firebase.getList.size();i++) {
             String str = Firebase.getList.get(i).toString();
             //Log.d("abc",str);
-            time = str.replace("}","").trim().split(",");
-            for(int j=0;j<time.length;j++) {
-                time[j] = time[j].substring(time[j].indexOf("=")+1);
-                Log.d("abc",time[j]);
+            get = str.replace("}","").trim().split(",");
+            for(int j=0;j<get.length;j++) {
+                list[i][j] = get[j].substring(get[j].indexOf("=")+1);
+
             }
         }
     }

@@ -50,7 +50,7 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
 
         public void setItem(Complaint complaint){
             timeText.setText(complaint.time);
-            content.setText(complaint.complaintKind);
+            content.setText("소음 종류 : "+complaint.complaintKind);
         }
     }
 }

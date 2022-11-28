@@ -84,7 +84,7 @@ public class Firebase {
     public void Complaint(int other_room, String content) { //민원 접수 시
         int result = CheckComplaint(other_room); //상대방 집에서 소음 발생 여부 확인
         Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-dd-MM HH:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String time = formatter.format(date);
         dataComplaint fcomplaint = new dataComplaint(other_room, time, content, result);
 
