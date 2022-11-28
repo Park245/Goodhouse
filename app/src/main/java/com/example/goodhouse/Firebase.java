@@ -15,13 +15,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Firebase {
     static HashMap<String, Object> noise = new HashMap<>();
     static HashMap<String, Object> week_noise = new HashMap<>();
     static HashMap<String, Object> month_noise = new HashMap<>();
     static List<Object> fileList = new ArrayList<>();
-    static List<String> getList = new ArrayList<>();
+    static List<Object> getList = new ArrayList<>();
     static int score, address, room;
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference databaseReference = database.getReference();
@@ -50,10 +51,8 @@ public class Firebase {
         databaseReference.child(Integer.toString(address)).child(Integer.toString(room)).child("getComplaint").addValueEventListener(new ValueEventListener() { //get getComplaint from firebase
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.d("aaa","1");
                 for (DataSnapshot ds : snapshot.getChildren()) {
-                    getList.add((String)ds.getValue());
-                    Log.d("aaa","1");
+                    getList.add(ds.getValue());
                 }
             }
             @Override
@@ -77,6 +76,11 @@ public class Firebase {
         databaseReference.child(Integer.toString(address)).child(Integer.toString(room)).child("score").setValue(100);
     }
 
+    public void LogIn(int log_address, int log_room) { //LogIn
+        address = log_address;
+        room = log_room;
+    }
+
     public void Complaint(int other_room, String content) { //민원 접수 시
         int result = CheckComplaint(other_room); //상대방 집에서 소음 발생 여부 확인
         Date date = new Date();
@@ -84,17 +88,10 @@ public class Firebase {
         String time = formatter.format(date);
         dataComplaint fcomplaint = new dataComplaint(other_room, time, content, result);
 
-        databaseReference.child(Integer.toString(address)).child(Integer.toString(room)).child("fileComplaint").push().setValue(other_room);
-        databaseReference.child(Integer.toString(address)).child(Integer.toString(room)).child("fileComplaint").push().setValue(time);
-        databaseReference.child(Integer.toString(address)).child(Integer.toString(room)).child("fileComplaint").push().setValue(content);
-        databaseReference.child(Integer.toString(address)).child(Integer.toString(room)).child("fileComplaint").push().setValue(result);
+        databaseReference.child(Integer.toString(address)).child(Integer.toString(room)).child("fileComplaint").push().setValue(fcomplaint);
         if(result == 1) {
-            result = 2;
-            dataComplaint rcomplaint = new dataComplaint(room, time,content,result);
-            databaseReference.child(Integer.toString(address)).child(Integer.toString(other_room)).child("getComlaint").push().setValue(room);
-            databaseReference.child(Integer.toString(address)).child(Integer.toString(other_room)).child("getComlaint").push().setValue(time);
-            databaseReference.child(Integer.toString(address)).child(Integer.toString(other_room)).child("getComlaint").push().setValue(content);
-            databaseReference.child(Integer.toString(address)).child(Integer.toString(other_room)).child("getComlaint").push().setValue(result);
+            dataComplaint gcomplaint = new dataComplaint(room, time,content, 2);
+            databaseReference.child(Integer.toString(address)).child(Integer.toString(room)).child("getComplaint").push().setValue(gcomplaint);
         }
     }
 

@@ -33,12 +33,13 @@ public class LoginActivity extends AppCompatActivity {
                 boolean loginResult = loginData.sendLoginData();
                 if(loginResult) {
                     //다음화면 전환
-                    firebase.SignIn(Integer.parseInt(idString), Integer.parseInt(tokenString));
+                    //firebase.SignIn(Integer.parseInt(idString), Integer.parseInt(tokenString)); //처음 가입일 경우
+                    firebase.LogIn(Integer.parseInt(idString), Integer.parseInt(tokenString)); //login
                     try
                     {
                         firebase.getInfo();
                         firebase.putNoise();
-                        sleep(300);
+                        sleep(1000);
                     } catch (InterruptedException e)
                     {
                         e.printStackTrace();
@@ -60,8 +61,8 @@ class LoginData{
     String id = "";
     String token = "";
 
-    LoginData( String id, String token){
-        this.id = id;
+    LoginData(String sangjun19, String token){
+        this.id = sangjun19;
         this.token = token;
     }
 
@@ -69,5 +70,4 @@ class LoginData{
         if(id.equals("12345")&&token.equals("108")) return true;
         else return false;
     }
-
 }

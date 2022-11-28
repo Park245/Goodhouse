@@ -26,7 +26,9 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class
 
@@ -38,6 +40,7 @@ MainPageActivity extends AppCompatActivity {
     private TextView welcome;
     private int[] dbArr;
     EditText editText;
+    static String[] time;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         dbArr = getDB();
@@ -101,6 +104,16 @@ MainPageActivity extends AppCompatActivity {
 
         scoreText.setText(Firebase.score +"점");
         complText.setText(Firebase.getList.size()+"회/월");
+
+        for(int i=0;i<Firebase.getList.size();i++) {
+            String str = Firebase.getList.get(i).toString();
+            //Log.d("abc",str);
+            time = str.replace("}","").trim().split(",");
+            for(int j=0;j<time.length;j++) {
+                time[j] = time[j].substring(time[j].indexOf("=")+1);
+                Log.d("abc",time[j]);
+            }
+        }
     }
 
     public void showDialog(){

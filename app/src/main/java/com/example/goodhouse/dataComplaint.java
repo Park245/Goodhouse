@@ -1,5 +1,7 @@
 package com.example.goodhouse;
 
+import android.util.Log;
+
 public class dataComplaint {
     String time, content;
     int result, other_room;
@@ -28,6 +30,19 @@ public class dataComplaint {
 
     public void setResult() {
         this.result = result;
+    }
+
+    public int getOther_room() {
+        return other_room;
+    }
+
+    public void setOther_room() {
+        this.other_room = other_room;
+    }
+
+    public String toString() {
+        Log.d("abc","to-string"+other_room+time);
+        return other_room+","+time+","+content+","+result;
     }
 
     dataComplaint(int other_room, String time, String content, int result) {
