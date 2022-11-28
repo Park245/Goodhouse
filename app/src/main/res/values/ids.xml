@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="chip" type="id" />
+    <item name="chip2" type="id" />
+    <item name="chip3" type="id" />
+    <item name="chip4" type="id" />
+</resources>
