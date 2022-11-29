@@ -29,6 +29,7 @@
 
         <Button
             android:id="@+id/oneDayBtn"
+            android:background="@drawable/custom_ripple_effect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="40sp"
@@ -38,6 +39,7 @@
 
         <Button
             android:id="@+id/weekBtn"
+            android:background="@drawable/custom_ripple_effect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/jalnan"
@@ -46,6 +48,7 @@
 
         <Button
             android:id="@+id/amonthBtn"
+            android:background="@drawable/custom_ripple_effect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="40sp"
